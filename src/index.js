@@ -7,9 +7,7 @@ const swaggerUi = require('swagger-ui-express'),
 const app = express();
 const env = app.get('env');
 
-if (env === 'development') {
-  app.use(morgan('tiny'));
-}
+if (env === 'development') app.use(morgan('tiny'));
 app.use(express.json());
 app.use('/api/genres', genres);
 
