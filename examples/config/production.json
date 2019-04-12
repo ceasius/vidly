@@ -1,0 +1,6 @@
+{
+  "name": "Courses - Production",
+  "mail": {
+    "host": "prod-mail-server"
+  }
+}
