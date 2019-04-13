@@ -31,8 +31,11 @@ const Course = new mongoose.model('Course', courseSchema);
 //  or
 //  and
 
+//createCourse();
 //getCoursesCount();
 //importCourses();
+//updateCourse('5a68fde3f09ad7646ddec17e');
+deleteCourse('5cb26a7a93b1ab1634b5079a');
 
 async function importCourses() {
     data.map(item => {
@@ -64,6 +67,52 @@ async function getCourses() {
         .select({ name: 1, author: 1, tags: 1 });
     console.log('Loading Courses...');
     console.log(courses);
+}
+
+async function updateCourse(id) {
+    // Query first approach
+    try {
+        const course = await Course.findById(id);
+        if (!course) throw new Error('Course does not exist');
+        //course.isPublished = false; //both methods are valid
+        course.set({ isPublished: true });
+        const saved = await course.save();
+        console.log('updated:', saved);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function deleteCourse(id) {
+    //Course.deleteMany({isPublished:false});
+    //const result = await Course.deleteOne({ _id: id }); //returns result details
+    const course = await Course.findByIdAndRemove(id);
+    console.log('removed', course);
+}
+
+async function updateCourseByQuery(id) {
+    // Updade first approach
+    try {
+        //  Search MongoDB update operators
+        //const result = await Course.update(
+        //    { _id: id },
+        //    { $set: { isPublished: true } }
+        //);
+        //  this returns the updated details
+        const result = await Course.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    isPublished: true,
+                    author: 'Mosh'
+                }
+            },
+            { new: true }
+        ); //new will return the updated document instead of the original
+        console.log('updated:', result);
+    } catch (err) {
+        console.log(err.message);
+    }
 }
 
 async function getCoursesPrice() {
