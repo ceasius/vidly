@@ -1,0 +1,1 @@
+mongoimport --db playground --collection courses --drop --file import.json --jsonArray
