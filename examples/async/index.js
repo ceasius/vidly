@@ -1,22 +1,21 @@
 console.log('Begin');
 
 console.log('Async calls started...');
-getUser(1)
-    .then(user => {
-        console.log('user:', user);
-        return getRepositories();
-    })
-    .then(repos => {
-        console.log('repos: ', repos);
-        return getCommits(repos[0]);
-    })
-    .then(commits => {
-        console.log('commits: ', commits);
-        return;
-    })
-    .catch(err => console.log('error: ', err.message));
-
+retrieveData();
 console.log('End');
+
+async function retrieveData() {
+    try {
+        const user = await getUser(1);
+        console.log('user:', user);
+        const repos = await getRepositories(user.username);
+        console.log('repos: ', repos);
+        const commits = await getCommits(repos[0]);
+        console.log('commits: ', commits);
+    } catch (err) {
+        console.log('error: ', err.message);
+    }
+}
 
 function getUser(id) {
     return new Promise((resolve, reject) => {
@@ -43,19 +42,4 @@ function getCommits(repo) {
             resolve(['commit1']);
         }, 2000);
     });
-}
-
-function Playground() {
-    const p = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            //resolve(1);
-            reject(new Error('My gravy is frozen'));
-            //throw new Error('My toast is soggy');
-            //throwing errors in an anonymous function will not be caught by Promise.catch
-        });
-    });
-
-    p.then(result => console.log('result:', result)).catch(err =>
-        console.log('error:', err.message)
-    );
 }
