@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         let customer = new Customer({
             name: req.body.name,
             isGold: req.body.isGold,
-            number: req.body.number
+            phone: req.body.phone
         });
 
         customer = await customer.save();
@@ -31,6 +31,9 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+            return res.status(400).send('Invalid Params Id');
+
         const customer = await Customer.findById(req.params.id);
         if (!customer)
             return res
@@ -43,7 +46,7 @@ router.put('/:id', async (req, res) => {
         customer.set({
             name: req.body.name,
             isGold: req.body.isGold,
-            number: req.body.number
+            phone: req.body.phone
         });
         await customer.save();
 
@@ -55,6 +58,9 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+            return res.status(400).send('Invalid Params Id');
+
         const customer = await Customer.findByIdAndDelete(req.params.id);
         if (!customer)
             return res
@@ -69,6 +75,9 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+            return res.status(400).send('Invalid Params Id');
+
         const customer = await Customer.findById(req.params.id);
         if (!customer)
             return res

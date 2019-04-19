@@ -15,7 +15,7 @@ function validateCustomer(customer) {
             .max(255)
             .required(),
         isGold: Joi.boolean().optional(),
-        number: Joi.string()
+        phone: Joi.string()
             .optional()
             .min(10)
             .max(15)
@@ -24,4 +24,5 @@ function validateCustomer(customer) {
 }
 
 module.exports.Customer = Customer;
+module.exports.customerSchema = customerSchema;
 module.exports.validate = validateCustomer;

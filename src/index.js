@@ -5,6 +5,8 @@ const genres = require('./routes/genres');
 const customers = require('./routes/customers');
 const swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 
 const app = express();
 const env = app.get('env');
