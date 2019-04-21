@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 function generateAuthToken() {
   const privateKey = config.get('jwtPrivateKey');
-  const token = jwt.sign({ _id: this._id }, privateKey);
+  const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, privateKey);
 
   return token;
 }
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   },
   password: { type: String, required: true, minlength: 3, maxlength: 1024 },
   name: { type: String, required: true, minlength: 3, maxlength: 255 },
-  isAdmin: { type: Boolean, required: false, default: true }
+  isAdmin: { type: Boolean, required: false, default: false }
 });
 userSchema.methods.generateAuthToken = generateAuthToken;
 userSchema.methods.hashPassword = hashPassword;

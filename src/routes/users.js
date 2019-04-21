@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const auth = require('../middleware/auth');
 const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
@@ -9,6 +10,15 @@ router.get('/', async (req, res) => {
       .select({ name: 1, email: 1 })
       .sort('name');
     res.send(users);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
   } catch (err) {
     res.status(500).send(err.message);
   }
