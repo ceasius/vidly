@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
+const movies = require('./routes/movies');
+const rentals = require('./routes/rentals');
 const swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 const Joi = require('joi');
@@ -20,6 +22,8 @@ if (env === 'development') app.use(morgan('tiny'));
 app.use(express.json());
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
+app.use('/api/movies', movies);
+app.use('/api/rentals', rentals);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
