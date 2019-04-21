@@ -7,12 +7,8 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 
 router.get('/', auth, async (req, res) => {
-  try {
-    const rentals = await Rental.find().sort('-dateOut');
-    res.send(rentals);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+  const rentals = await Rental.find().sort('-dateOut');
+  res.send(rentals);
 });
 
 router.post('/', auth, async (req, res) => {
@@ -55,7 +51,7 @@ router.post('/', auth, async (req, res) => {
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
-    res.status(500).send(err.message);
+    next(err);
   }
 });
 
