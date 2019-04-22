@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
 router.get('/', auth, async (req, res) => {
-  throw new Error('Index has stopped working');
+  throw new Error('Something unexpected happened');
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });

@@ -1,7 +1,10 @@
-const logger = require('../middleware/logger');
+const logger = require('../startup/logger').logger;
 
 // log levers [error, warn, info, verbose, debug, silly]
 module.exports = function(err, req, res, next) {
-  logger.error(err.message);
-  if (err) return res.status(500).send('Something went wrong internally.');
+  if (err) {
+    err.meta = { stack: err.stack };
+    logger.error('Internal Server Error: ', err);
+    return res.status(500).send('Something went wrong internally.');
+  }
 };
