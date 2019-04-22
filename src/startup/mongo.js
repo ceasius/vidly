@@ -12,7 +12,7 @@ module.exports = function() {
       logger.debug('Connected to MongoDB...');
     })
     .catch(err => {
-      logger.error('Could not connect to MongoDB: ', err.message);
+      logger.error('Could not connect to MongoDB: ', err);
       process.exit(1);
     });
 };

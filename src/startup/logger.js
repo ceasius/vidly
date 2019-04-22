@@ -28,7 +28,9 @@ function startup(env) {
     logger.add(
       new winston.transports.Console({
         format: winston.format.simple(),
-        level: 'debug'
+        level: 'debug',
+        colorize: true,
+        prettyPrint: true
       })
     );
 
