@@ -1,5 +1,6 @@
+const node_env = process.env.NODE_ENV;
 const winston = require('winston');
-require('winston-mongodb');
+if (node_env !== 'test') require('winston-mongodb');
 require('express-async-errors');
 const config = require('config');
 
@@ -22,7 +23,7 @@ function startup(env) {
     metaKey: 'meta'
   };
 
-  logger.add(new winston.transports.MongoDB(conn));
+  if (env !== 'test') logger.add(new winston.transports.MongoDB(conn));
 
   if (env === 'development')
     logger.add(

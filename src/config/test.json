@@ -1,0 +1,10 @@
+{
+  "jwtPrivateKey": "abc123",
+  "mongoConnection": {
+    "connectionString": "mongodb://localhost/vidly_test",
+    "options": {
+      "useNewUrlParser": true,
+      "useCreateIndex": true
+    }
+  }
+}

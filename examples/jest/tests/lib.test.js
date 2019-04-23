@@ -63,6 +63,7 @@ describe('registerUser', () => {
 
 describe('applyDiscount', () => {
   it('should apply 10% discount if customer has more than 10 points', () => {
+    //Manual function creation
     db.getCustomerSync = function(customerId) {
       console.log('Mock Reading Customer...');
       return { id: customerId, points: 20 };
@@ -74,16 +75,12 @@ describe('applyDiscount', () => {
 });
 describe('notifyCustomer', () => {
   it('should email to the customer', () => {
-    db.getCustomerSync = function(customerId) {
-      console.log('Mock Reading Customer...');
-      return { email: 'a' };
-    };
-    let mailSent = false;
-    mail.send = function(email, message) {
-      mailSent = true;
-    };
-
+    //mockfunction
+    db.getCustomerSync = jest.fn().mockReturnValue({ email: 'a' });
+    mail.send = jest.fn();
     lib.notifyCustomer(1);
-    expect(mailSent).toBe(true);
+    expect(mail.send).toHaveBeenCalled();
+    expect(mail.send.mock.calls[0][0]).toBe('a');
+    expect(mail.send.mock.calls[0][1]).toMatch(/order/i);
   });
 });

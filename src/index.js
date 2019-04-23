@@ -10,4 +10,8 @@ require('./startup/config')();
 
 const port = process.env.PORT || 3000;
 logger.debug(`Env-${env}`);
-app.listen(port, () => logger.debug(`Listening on port ${port}...`));
+const server = app.listen(port, () =>
+  logger.debug(`Listening on port ${port}...`)
+);
+
+module.exports = server;
