@@ -10,8 +10,8 @@ describe('api/genres', () => {
   });
 
   afterEach(async () => {
-    await Genre.remove({});
-    server.close();
+    await Genre.deleteMany({});
+    await server.close();
   });
 
   describe('GET /', () => {
@@ -69,7 +69,7 @@ describe('api/genres', () => {
       name = 'genre1';
     });
 
-    it('should return 401 if genre is user is not logged in', async () => {
+    it('should return 401 if user is not logged in', async () => {
       token = '';
       const res = await exec();
 

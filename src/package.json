@@ -5,20 +5,23 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon .",
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watchAll --verbose --runInBand  --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "compression": "^1.7.4",
     "config": "^3.1.0",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",
+    "helmet": "^3.16.0",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "mongoose": "^5.5.1",
     "morgan": "^1.9.1",
     "swagger-ui-express": "^4.0.2",
@@ -30,6 +33,9 @@
     "supertest": "^4.0.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageReporters": [
+      "lcov"
+    ]
   }
 }

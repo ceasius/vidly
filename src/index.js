@@ -7,6 +7,7 @@ const logger = require('./startup/logger').startup(env);
 require('./startup/routes')(app);
 require('./startup/mongo')();
 require('./startup/config')();
+require('./startup/prod')(app);
 
 const port = process.env.PORT || 3000;
 logger.debug(`Env-${env}`);
