@@ -1,7 +1,7 @@
 {
   "jwtPrivateKey": "",
   "mongoConnection": {
-    "connectionString": "",
+    "connectionString": "mongodb://localhost/vidly",
     "options": {
       "useNewUrlParser": true,
       "useCreateIndex": true

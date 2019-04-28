@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon .",
-    "test": "jest --watchAll --verbose --runInBand  --coverage"
+    "dev": "nodemon .",
+    "start": "node .",
+    "test": "jest --watchAll --verbose --runInBand --coverage"
+  },
+  "engines": {
+    "node": "10.15.3"
   },
   "keywords": [],
   "author": "",

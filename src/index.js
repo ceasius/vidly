@@ -12,7 +12,7 @@ require('./startup/prod')(app);
 const port = process.env.PORT || 3000;
 logger.debug(`Env-${env}`);
 const server = app.listen(port, () =>
-  logger.debug(`Listening on port ${port}...`)
+  logger.info(`Listening on port ${port}...`)
 );
 
 module.exports = server;

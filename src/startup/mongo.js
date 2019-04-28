@@ -9,7 +9,7 @@ module.exports = function() {
       config.get('mongoConnection.options')
     )
     .then(() => {
-      logger.debug('Connected to MongoDB...');
+      logger.info('Connected to MongoDB...');
     })
     .catch(err => {
       logger.error('Could not connect to MongoDB: ', err);

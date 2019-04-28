@@ -1,3 +1,6 @@
 {
-  "jwtPrivateKey": "vidly-jwtprivatekey"
+  "jwtPrivateKey": "vidly-jwtprivatekey",
+  "mongoConnection": {
+    "connectionString": "vidly-mongodb"
+  }
 }
