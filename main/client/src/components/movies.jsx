@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getMovies, deleteMovie } from '../services/fakeMovieService';
+import Like from './common/like';
 
 class Movies extends Component {
   state = { movies: getMovies() };
@@ -14,13 +15,16 @@ class Movies extends Component {
   getTable() {
     if (this.state.movies.length === 0) return;
     return (
-      <table className="table table-bordered">
+      <table className="table table">
         <thead className="thead-dark">
-          <th scope="col">Title</th>
-          <th scope="col">Genre</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Rate</th>
-          <th scope="col" />
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Rate</th>
+            <th scope="col" />
+            <th scope="col" />
+          </tr>
         </thead>
         <tbody>
           {this.state.movies.map(movie => this.getTableItem(movie))}
@@ -30,22 +34,35 @@ class Movies extends Component {
   }
   getTableItem(movie) {
     return (
-      <tr>
+      <tr key={movie._id}>
         <th scope="row">{movie.title}</th>
         <td>{movie.genre.name}</td>
         <td>{movie.numberInStock}</td>
         <td>{movie.dailyRentalRate}</td>
         <td>
+          <Like liked={movie.liked} onClick={() => this.handleLike(movie)} />
+        </td>
+        <td>
           <button
             onClick={() => this.handleDelete(movie)}
             className="btn btn-danger btn-sm"
           >
-            Delete
+            <i className="fa fa-trash fa-lg" />
           </button>
         </td>
       </tr>
     );
   }
+
+  handleLike = movie => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({
+      movies: movies
+    });
+  };
 
   handleDelete = movie => {
     deleteMovie(movie._id);
