@@ -2,22 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ListGroup = props => {
-  const { items, onFiltered, currentItem } = props;
+  const {
+    items,
+    onItemSelect,
+    selectedItem,
+    valueProperty,
+    keyProperty
+  } = props;
   const listItem = 'list-group-item list-group-item-action';
   return (
     <div className="list-group">
       {items.map(item => {
-        const active = item === currentItem;
+        const active = item[keyProperty] === selectedItem[keyProperty];
         return (
           <button
             type="button"
-            key={item}
+            key={item[keyProperty]}
             className={active ? listItem + ' active' : listItem}
             onClick={() => {
-              if (!active) onFiltered(item);
+              if (!active) onItemSelect(item);
             }}
           >
-            {item}
+            {item[valueProperty]}
           </button>
         );
       })}
@@ -25,10 +31,17 @@ const ListGroup = props => {
   );
 };
 
+ListGroup.defaultProps = {
+  keyProperty: 'key',
+  valueProperty: 'value'
+};
+
 ListGroup.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
-  currentItem: PropTypes.string.isRequired,
-  onFiltered: PropTypes.func.isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedItem: PropTypes.object.isRequired,
+  onItemSelect: PropTypes.func.isRequired,
+  keyProperty: PropTypes.string,
+  valueProperty: PropTypes.string
 };
 
 export default ListGroup;
