@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import { getMovies, deleteMovie } from '../services/fakeMovieService';
 import Like from './common/like';
+import Pagination from './common/pagination';
+import paginate from '../utils/paginate';
 
 class Movies extends Component {
-  state = { movies: getMovies() };
+  state = { movies: getMovies(), pageSize: 8, currentPage: 1 };
+
   render() {
+    const { movies: allMovies, currentPage, pageSize } = this.state;
+    const movies = paginate(allMovies, currentPage, pageSize);
+    const count = allMovies.length;
     return (
       <React.Fragment>
-        <p>{this.getHeader()}</p>
-        {this.getTable()}
+        <p>{this.getHeader(movies)}</p>
+        {this.getTable(movies, count)}
+        <Pagination
+          itemsCount={count}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+          currentPage={this.state.currentPage}
+        />
       </React.Fragment>
     );
   }
-  getTable() {
-    if (this.state.movies.length === 0) return;
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
+  };
+  getTable(movies, count) {
+    if (count === 0) return;
     return (
       <table className="table table">
         <thead className="thead-dark">
@@ -26,9 +41,7 @@ class Movies extends Component {
             <th scope="col" />
           </tr>
         </thead>
-        <tbody>
-          {this.state.movies.map(movie => this.getTableItem(movie))}
-        </tbody>
+        <tbody>{movies.map(movie => this.getTableItem(movie))}</tbody>
       </table>
     );
   }
@@ -47,12 +60,12 @@ class Movies extends Component {
             onClick={() => this.handleDelete(movie)}
             className="btn btn-danger btn-sm"
           >
-            <i className="fa fa-trash fa-lg" />
+            Delete
           </button>
         </td>
       </tr>
     );
-  }
+  } //<i className="fa fa-trash fa-lg" />
 
   handleLike = movie => {
     const movies = [...this.state.movies];
@@ -71,8 +84,7 @@ class Movies extends Component {
     });
   };
 
-  getHeader() {
-    const { movies } = this.state;
+  getHeader(movies) {
     const plural = movies.length === 1 ? 'movie' : 'movies';
     return movies.length === 0
       ? 'There are no movies in the database.'
