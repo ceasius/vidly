@@ -56,11 +56,14 @@ const rentalSchema = new mongoose.Schema({
   }
 });
 
-rentalSchema.statics.lookup = function(customerId, movieId) {
-  return this.findOne({
+rentalSchema.statics.lookup = async function(customerId, movieId) {
+  const rentals = await this.find({
     'customer._id': customerId,
     'movie._id': movieId
-  });
+  })
+  .sort({dateReturned: 'asc', dateOut: 'desc' })
+  .limit(1);
+  return rentals.find(rental => rental);
 };
 
 rentalSchema.methods.returnRental = function() {
@@ -73,11 +76,11 @@ rentalSchema.methods.returnRental = function() {
 const Rental = mongoose.model('Rental', rentalSchema);
 
 function validateRental(rental) {
-  const schema = {
+  const schema = Joi.object({
     customerId: Joi.objectId().required(),
     movieId: Joi.objectId().required()
-  };
-  return Joi.validate(rental, schema);
+  });
+  return schema.validate(rental);
 }
 
 module.exports.Rental = Rental;

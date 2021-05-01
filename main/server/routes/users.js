@@ -1,10 +1,11 @@
 const _ = require('lodash');
 const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', [auth, admin], async (req, res) => {
   const users = await User.find()
     .select({ name: 1, email: 1 })
     .sort('name');

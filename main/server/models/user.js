@@ -42,7 +42,7 @@ userSchema.methods.validatePassword = validatePassword;
 const User = mongoose.model('User', userSchema);
 
 function validateUser(user) {
-  const schema = {
+  const schema = Joi.object({
     email: Joi.string()
       .min(3)
       .max(255)
@@ -56,12 +56,13 @@ function validateUser(user) {
       .min(3)
       .max(255)
       .required()
-  };
-  return Joi.validate(user, schema);
+  });
+  
+  return schema.validate(user);
 }
 
 function validateAuth(req) {
-  const schema = {
+  const schema = Joi.object({
     email: Joi.string()
       .min(3)
       .max(255)
@@ -71,8 +72,8 @@ function validateAuth(req) {
       .min(6)
       .max(255)
       .required()
-  };
-  return Joi.validate(req, schema);
+  });
+  return schema.validate(req);
 }
 
 module.exports.User = User;
