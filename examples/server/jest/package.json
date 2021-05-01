@@ -6,7 +6,6 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
   "devDependencies": {
     "jest": "^24.7.1"
   },
